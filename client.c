@@ -69,6 +69,8 @@ int main(int argc, char *argv [])
             //send the message
             if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == -1) {
                 die("sendto()");
+            } else {
+                putchar(message[0]);
             }
         }
 
