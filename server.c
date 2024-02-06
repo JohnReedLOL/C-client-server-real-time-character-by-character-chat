@@ -70,6 +70,9 @@ int main(int argc, char *argv [])
         // const int input_char_as_int = input_char;
         // printf("ASCII code of packet is: %d \n", input_char_as_int);
         putchar(input_char);
+        if(input_char == 7) {
+            printf(" *beep* ");
+        }
         //printf("Data: %s\n" , buf);
 
         /*
