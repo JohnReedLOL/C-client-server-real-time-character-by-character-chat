@@ -12,6 +12,15 @@
 #define BUFLEN 2	//Max length of buffer
 // #define PORT 8000	//The port on which to send data
 
+/* Returns 1 if the operating system is Mac and 0 if it is not by using compile time macros. Note that 1 works like "true" in C. */
+int isMacOS() {
+    #ifdef __APPLE__
+        return 1;
+    #else
+        return 0;
+    #endif
+}
+
 void die(char *s)
 {
     perror(s);
@@ -49,12 +58,16 @@ int main(int argc, char *argv [])
     system ("/bin/stty raw");
 
     printf("Everything you type is being sent to ip address %s . Note that the backspace and enter keys do nothing. Press \"@\" to send a beep sound and press \"#\" to send a newline. \n", SERVER);
+    if( isMacOS() ) {
+        printf("Note: the program has detected that the operating system is Mac and is making appropriate adjustments. \n");
+    }
     while(1)
     {
-        char ch = (char) getchar();
+	const int ch_integer = getchar();
+        char ch = (char) ch_integer;
         message[0] = ch;
         //gets(message);
-
+        printf("The ASCII code of the character you just typed is: %d . \n", ch_integer);
         if(ch != 8 && ch != 13) { // Only send if character is not backspace, 8, or new line, 13.
             if(ch == '@') {
                 printf(". You pressed the \"@\" symbol which sends a bell noise.");
@@ -70,7 +83,10 @@ int main(int argc, char *argv [])
             if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == -1) {
                 die("sendto()");
             } else {
-                putchar(message[0]);
+		// If it is not Mac, print the character that was sent over. Note that without this if statement, the character will appear in the terminal twice on Linux.
+		if( isMacOS() ) {
+                    putchar(message[0]);
+		}
             }
         }
 
@@ -85,8 +101,8 @@ int main(int argc, char *argv [])
             die("recvfrom()");
         }
 
-        //puts(buf);
-        putchar(buf[0]);
+        // puts(buf);
+        // putchar(buf[0]);
         */
     }
 
