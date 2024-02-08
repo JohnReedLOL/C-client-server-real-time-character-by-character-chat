@@ -70,7 +70,7 @@ int main(int argc, char *argv [])
         printf(". The ASCII code of the character you just typed is: %d . \n", ch_integer);
 
         if(ch == 3) {
-            printf(". You pressed \"Ctrl+C" which terminates the program. \n");
+            printf(". You pressed \"Ctrl+C\" which terminates the program. \n");
             exit(0);
 	}
 	    
