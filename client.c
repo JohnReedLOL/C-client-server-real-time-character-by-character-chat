@@ -59,7 +59,7 @@ int main(int argc, char *argv [])
 
     printf("Everything you type is being sent to ip address %s . Note that the backspace and enter keys do nothing. Press \"@\" to send a beep sound and press \"#\" to send a newline. \n", SERVER);
     if( isMacOS() ) {
-        printf("Note: the program has detected that the operating system is Mac and is making appropriate adjustments. \n");
+        printf("Note: the program has detected that your operating system is Mac and is making appropriate adjustments. \n");
     }
     while(1)
     {
@@ -83,7 +83,7 @@ int main(int argc, char *argv [])
             if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == -1) {
                 die("sendto()");
             } else {
-		// If it is not Mac, print the character that was sent over. Note that without this if statement, the character will appear in the terminal twice on Linux.
+		// If it is not Mac, print the character that was sent over. Note that without this if statement around the putchar function, the character will appear in the terminal twice on Linux.
 		if( isMacOS() ) {
                     putchar(message[0]);
 		}
