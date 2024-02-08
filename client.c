@@ -67,18 +67,20 @@ int main(int argc, char *argv [])
         char ch = (char) ch_integer;
         message[0] = ch;
         //gets(message);
-        printf("The ASCII code of the character you just typed is: %d . \n", ch_integer);
-        if(ch != 8 && ch != 13) { // Only send if character is not backspace, 8, or new line, 13.
+        printf(". The ASCII code of the character you just typed is: %d . \n", ch_integer);
+        if(ch != 8 && ch == 127 && ch != 13) { // Only send if character is not backspace, characters 8 or 127, or new line, character 13. Note I added a new condition for new line.
             if(ch == '@') {
                 printf(". You pressed the \"@\" symbol which sends a bell noise.");
                 ch = 7; // Bell noise character
                 message[0] = ch;
             }
+	    /* I am commenting this out because now I'm going to try and get the newline character sent over and not have the # symbol reserved for that.
             if(ch == '#') {
                 printf(". You pressed the \"#\" symbol which sends over the signal to make a new paragraph.");
                 ch = '\n'; // Newline character
                 message[0] = ch;
             }
+	    */
             //send the message
             if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == -1) {
                 die("sendto()");
@@ -88,7 +90,22 @@ int main(int argc, char *argv [])
                     putchar(message[0]);
 		}
             }
-        }
+        } else if(ch == 13) {
+            printf(". You pressed the \"newline\" symbol which sends over the signal to make a new paragraph. ");
+            //send the message
+            if (sendto(s, message, strlen(message), 0, (struct sockaddr *) &si_other, slen) == -1) {
+                die("sendto()");
+            } else {
+		// If it is not Mac, print the character that was sent over. Note that without this if statement around the putchar function, the character will appear in the terminal twice on Linux.
+		if( isMacOS() ) {
+                    putchar(message[0]);
+		}
+            }
+	} else if(ch == 8 || ch == 127) {
+            printf(". You pressed the \"backspace\" symbol which unfortunately doesn't work. Nothing was sent over. ");
+	} else {
+            die("Impossible condition has been executed. Exiting.");
+	}
 
         //receive a reply and print it
         //clear the buffer by filling null, it might have previously received data
