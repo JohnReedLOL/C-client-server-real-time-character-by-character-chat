@@ -57,7 +57,7 @@ int main(int argc, char *argv [])
     // Turn on raw mode so that putchar doesn't require enter to be pressed to send. See https://stackoverflow.com/a/1799024
     system ("/bin/stty raw");
 
-    printf("Everything you type is being sent to ip address %s . Note that the backspace and enter keys do nothing. Press \"@\" to send a beep sound and press \"#\" to send a newline. \n", SERVER);
+    printf("Everything you type is being sent to ip address %s . Note that the backspace key does nothing. Press \"@\" to send a beep sound which plays on Linux and Mac laptops. \n", SERVER);
     if( isMacOS() ) {
         printf("Note: the program has detected that your operating system is Mac and is making appropriate adjustments. \n");
     }
@@ -68,7 +68,7 @@ int main(int argc, char *argv [])
         message[0] = ch;
         //gets(message);
         printf(". The ASCII code of the character you just typed is: %d . \n", ch_integer);
-        if(ch != 8 && ch == 127 && ch != 13) { // Only send if character is not backspace, characters 8 or 127, or new line, character 13. Note I added a new condition for new line.
+        if(ch != 8 && ch != 127 && ch != 13) { // Only send if character is not backspace, characters 8 or 127, or new line, character 13. Note I added a new condition for new line.
             if(ch == '@') {
                 printf(". You pressed the \"@\" symbol which sends a bell noise.");
                 ch = 7; // Bell noise character
