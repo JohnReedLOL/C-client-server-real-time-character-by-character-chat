@@ -67,7 +67,7 @@ int main(int argc, char *argv [])
         char ch = (char) ch_integer;
         message[0] = ch;
         //gets(message);
-        printf(". The ASCII code of the character you just typed is: %d . \n", ch_integer);
+        // printf(". The ASCII code of the character you just typed is: %d . \n", ch_integer); // This is for debugging.
 
         if(ch == 3) {
             printf(". You pressed \"Ctrl+C\" which terminates the program. \n");
